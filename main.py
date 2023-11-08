@@ -1,9 +1,10 @@
 """
 Sylvan Final, Dylan Pizura project, ultimate TicTac toe. 
 The current working version of this game is using unicode symbols, 
-which may not render on all systems, especially Windows, but are worth a shot
+which may not render on some systems, especially Windows, but are worth a shot
 
 """
+
 
 
 def print_board(board):
