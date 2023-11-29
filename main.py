@@ -74,7 +74,10 @@ if __name__ == "__main__":
     while False:
         PLAYER_STATUS = input("Will you be playing with a "second player" or against the "computer"?")
         if PLAYER_STATUS.lower() == "second player":
-            True
+            FIRST_MOVE_GRID = 10
+            while FIRST_MOVE_GRID not in range(1, 10):
+                FIRST_MOVE = input("Pick a grid for your first move (1-9).")
+            while 
         elif PLAYER_STATUS.lower() == "computer":
             True
 
