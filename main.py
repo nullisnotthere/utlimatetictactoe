@@ -71,4 +71,14 @@ if __name__ == "__main__":
     ]
     print(f"{check_win(lil_board).value} wins")
 
+    while False:
+        PLAYER_STATUS = input("Will you be playing with a "second player" or against the "computer"?")
+        if PLAYER_STATUS.lower() == "second player":
+            True
+        elif PLAYER_STATUS.lower() == "computer":
+            True
+
+    
+    
+
 
