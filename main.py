@@ -16,7 +16,16 @@ class Player(Enum):
 
 
 # I made this to represent the different ways that you can win
-WIN_PATTERNS = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
+WIN_PATTERNS = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+]
 
 
 # pass this function a board, and it will tell you if X, O, or neither wins
@@ -59,29 +68,17 @@ def print_board(board: List[List[Player]]):
 
 
 if __name__ == "__main__":
-    # here is what making a big board and printing it looks like
     board = [[Player.X for _ in range(9)] for _ in range(9)]
-    print_board(board)
 
-    # this is just so that I could check the check win function. You can mess with what is x / o and what is empty to get different results
-    lil_board = [
-        Player.X, Player.EMPTY, Player.EMPTY,
-        Player.X, Player.EMPTY, Player.EMPTY,
-        Player.X, Player.EMPTY, Player.EMPTY,
-    ]
-    print(f"{check_win(lil_board).value} wins")
-
-    while False:
-        PLAYER_STATUS = input("Will you be playing with a "second player" or against the "computer"?")
-        if PLAYER_STATUS.lower() == "second player":
-            FIRST_MOVE_GRID = 10
-            while FIRST_MOVE_GRID not in range(1, 10):
-                FIRST_MOVE = input("Pick a grid for your first move (1-9).")
-            while 
-        elif PLAYER_STATUS.lower() == "computer":
-            True
-
-    
-    
-
-
+    while True:
+        player_status = input(
+            "Will you be playing with a second player or against the computer?"
+        )
+        if player_status.lower() == "second player":
+            first_move_grid = 10
+            while first_move_grid not in range(1, 10):
+                first_move = input("Pick a grid for your first move (1-9): ")
+        elif player_status.lower() == "computer":
+            pass
+        else:
+            print("enter a valid choice, player or computer")
