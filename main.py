@@ -24,9 +24,7 @@ class fg:
     white = "\u001b[37m"
     reset = "\u001b[0m"
 
-
 CLEAR = "\033[2J"
-
 
 # I used this enum to define the different states a space could be
 class Player(Enum):
@@ -176,8 +174,6 @@ def make_move(active: Player, PREVIOUS_MOVE: int):
 
 
 def make_move_computer(active: Player, PREVIOUS_MOVE: int):
-
-
     while True:
         # case where the board is full
         while all(i != Player.EMPTY for i in board[PREVIOUS_MOVE - 1].board):    
@@ -244,8 +240,7 @@ if __name__ == "__main__":
             PREVIOUS_MOVE = make_move(active_player, first_move_grid)
             active_player = flop_player(active_player)
 
-            Win = False
-            while Win == False:
+            while True:
                 print_board(board)
                 PREVIOUS_MOVE = make_move(active_player, PREVIOUS_MOVE)
 
@@ -253,3 +248,5 @@ if __name__ == "__main__":
                     win(active_player)
 
                 active_player = flop_player(active_player)
+
+
