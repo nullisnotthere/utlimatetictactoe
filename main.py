@@ -246,7 +246,7 @@ if __name__ == "__main__":
 
                 active_player = flop_player(active_player)
 
-        # Loca
+        # Local player gameplay
         elif player_status.lower() == "l":
             print_board(board)
             active_player = random.choice((Player.X, Player.O))
