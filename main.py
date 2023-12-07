@@ -1,11 +1,9 @@
 """
 Sylvan Franklin, Dylan Pizura
 Final project, Ultimate TicTacToe. 
-The current working version of this game is using unicode symbols, 
-which may not render on some systems, especially Windows, but are worth a shot
+More info in README.md
 """
 
-# I imported this in order to make it more clear that the board is an array of arrays
 from typing import List
 from enum import Enum
 import sys
@@ -32,14 +30,14 @@ class Player(Enum):
     O = "O"
     EMPTY = " "
 
-
+# This allows us to attach a win status to an array
 class Board:
     def __init__(self, board, win_status):
         self.board = board
         self.WIN_STATUS = win_status
 
 
-# different coordinates for a win
+# Different coordinates for a win
 WIN_PATTERNS = [
     [0, 1, 2],
     [3, 4, 5],
@@ -52,6 +50,15 @@ WIN_PATTERNS = [
 ]
 
 
+# checks to see if the board it full and nobody wins
+def check_draw ():
+    if all([[c != Player.EMPTY for c in s] for s in board]):
+        print_board(board)
+        print("Nobody wins!")
+        sys.exit()
+
+
+# This is the final logic for when a player wins
 def win(active):
     print_board(board)
     print(
@@ -142,7 +149,7 @@ def choose_new_board():
         except ValueError:
             print(f"{fg.red}Invalid move entered!{fg.reset}")
 
-
+# Player turn function for first and local second player
 def make_move(active: Player, PREVIOUS_MOVE: int):
     # special case where board the you are trying to move in is full
     if all([c != Player.EMPTY for c in board[PREVIOUS_MOVE - 1].board]):
@@ -172,7 +179,7 @@ def make_move(active: Player, PREVIOUS_MOVE: int):
         except ValueError:
             print(f"{fg.red}Invalid move entered!{fg.reset}")
 
-
+# Player turn function for computer (randomly-generated response)
 def make_move_computer(active: Player, PREVIOUS_MOVE: int):
     while True:
         # case where the board is full
@@ -190,13 +197,13 @@ def make_move_computer(active: Player, PREVIOUS_MOVE: int):
 
     return cell
 
-
+# Switches player characters/turns
 def flop_player(player: Player):
     if player == Player.X:
         return Player.O
     return Player.X
 
-
+# Main body of gameplay
 if __name__ == "__main__":
     print(CLEAR)
     board: List[Board] = [
@@ -207,7 +214,8 @@ if __name__ == "__main__":
         player_status = input(
             "Will you be playing with a second player locally (L) or against the computer (C)? "
         ).upper()
-
+        
+        # Computer gameplay code
         if player_status.lower() == "c" or player_status.lower == "computer":
             print_board(board)
             active_player = random.choice((Player.X, Player.O))
@@ -221,15 +229,18 @@ if __name__ == "__main__":
                 PREVIOUS_MOVE = make_move(active_player, PREVIOUS_MOVE)
                 if check_win_board(board) != Player.EMPTY:
                     win(active_player)
+                check_draw()
 
                 active_player = flop_player(active_player)
                 # active_player = flop_player(active_player)
                 PREVIOUS_MOVE = make_move_computer(active_player, PREVIOUS_MOVE)
                 if check_win_board(board) != Player.EMPTY:
                     win(active_player)
+                check_draw()
 
                 active_player = flop_player(active_player)
-
+        
+        # Loca
         elif player_status.lower() == "l":
             print_board(board)
             active_player = random.choice((Player.X, Player.O))
@@ -246,6 +257,8 @@ if __name__ == "__main__":
 
                 if check_win_board(board) != Player.EMPTY:
                     win(active_player)
+                check_draw()
+                
 
                 active_player = flop_player(active_player)
 
