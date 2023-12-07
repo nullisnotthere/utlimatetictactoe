@@ -22,6 +22,7 @@ class fg:
     white = "\u001b[37m"
     reset = "\u001b[0m"
 
+
 CLEAR = "\033[2J"
 
 # I used this enum to define the different states a space could be
@@ -29,6 +30,7 @@ class Player(Enum):
     X = "X"
     O = "O"
     EMPTY = " "
+
 
 # This allows us to attach a win status to an array
 class Board:
@@ -51,7 +53,7 @@ WIN_PATTERNS = [
 
 
 # checks to see if the board it full and nobody wins
-def check_draw ():
+def check_draw():
     if all([[c != Player.EMPTY for c in s] for s in board]):
         print_board(board)
         print("Nobody wins!")
@@ -149,6 +151,7 @@ def choose_new_board():
         except ValueError:
             print(f"{fg.red}Invalid move entered!{fg.reset}")
 
+
 # Player turn function for first and local second player
 def make_move(active: Player, PREVIOUS_MOVE: int):
     # special case where board the you are trying to move in is full
@@ -179,11 +182,12 @@ def make_move(active: Player, PREVIOUS_MOVE: int):
         except ValueError:
             print(f"{fg.red}Invalid move entered!{fg.reset}")
 
+
 # Player turn function for computer (randomly-generated response)
 def make_move_computer(active: Player, PREVIOUS_MOVE: int):
     while True:
         # case where the board is full
-        while all(i != Player.EMPTY for i in board[PREVIOUS_MOVE - 1].board):    
+        while all(i != Player.EMPTY for i in board[PREVIOUS_MOVE - 1].board):
             PREVIOUS_MOVE = random.randint(1, 9)
 
         cell = random.randint(1, 9)
@@ -197,11 +201,13 @@ def make_move_computer(active: Player, PREVIOUS_MOVE: int):
 
     return cell
 
+
 # Switches player characters/turns
 def flop_player(player: Player):
     if player == Player.X:
         return Player.O
     return Player.X
+
 
 # Main body of gameplay
 if __name__ == "__main__":
@@ -214,7 +220,7 @@ if __name__ == "__main__":
         player_status = input(
             "Will you be playing with a second player locally (L) or against the computer (C)? "
         ).upper()
-        
+
         # Computer gameplay code
         if player_status.lower() == "c" or player_status.lower == "computer":
             print_board(board)
@@ -239,7 +245,7 @@ if __name__ == "__main__":
                 check_draw()
 
                 active_player = flop_player(active_player)
-        
+
         # Loca
         elif player_status.lower() == "l":
             print_board(board)
@@ -258,8 +264,5 @@ if __name__ == "__main__":
                 if check_win_board(board) != Player.EMPTY:
                     win(active_player)
                 check_draw()
-                
 
                 active_player = flop_player(active_player)
-
-
