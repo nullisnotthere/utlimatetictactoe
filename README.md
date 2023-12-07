@@ -19,7 +19,7 @@ We tested both the computer and two player functions through rigorous testing. W
 
 #### Work Distribution
 
-We each had a couple of designated tasks, but did most of the work together ni person. 
+We each had a couple of designated tasks, but did most of the work together in person. 
 
 **Sylvan**: 
 - board printing and colors
