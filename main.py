@@ -6,7 +6,6 @@ More info in README.md
 
 from typing import List
 from enum import Enum
-import os
 import random
 
 
@@ -55,31 +54,16 @@ WIN_PATTERNS = [
 
 # checks to see if the board it full and nobody wins
 def check_draw(board: List[Board]):
-
     draw = True
     for subboard in board:
         for cell in subboard.board:
             if cell == Player.EMPTY:
                 draw = False
 
-    if draw:
-        print("Nobody Wins")
-        os._exit(0)
+    return draw
 
 
 # This is the final logic for when a player wins
-def win(active):
-    print_board(board)
-    print(
-        f"{fg.blue}{active.value}{fg.reset} Wins! {fg.green}Thank you for Playing{fg.reset}",
-    )
-    os._exit(0)
-
-
-
-# pass this function a board, and it will tell you if X, O, or neither wins
-
-
 def check_win(b: Board) -> Player:
     if b.WIN_STATUS != Player.EMPTY:
         return Player.EMPTY
@@ -217,6 +201,66 @@ def flop_player(player: Player):
     return Player.X
 
 
+def end(active: Player):
+    if active == Player.X:
+        print("X wins, Thank you for playing")
+    elif active == Player.O:
+        print("O wins, Thank you for playing")
+    else:
+        print("The game is a draw")
+
+
+def computer():
+    # Computer gameplay code
+    print_board(board)
+    active_player = random.choice((Player.X, Player.O))
+    PREVIOUS_MOVE = 10
+
+    while PREVIOUS_MOVE not in range(1, 10):
+        PREVIOUS_MOVE = int(input("Pick a grid for your first move [1-9]: "))
+
+    while True:
+        print_board(board)
+        PREVIOUS_MOVE = make_move(active_player, PREVIOUS_MOVE)
+        if check_win_board(board) != Player.EMPTY:
+            end(active_player)
+            break
+        elif check_draw(board):
+            end(active_player)
+            break
+
+        active_player = flop_player(active_player)
+        # active_player = flop_player(active_player)
+        PREVIOUS_MOVE = make_move_computer(active_player, PREVIOUS_MOVE)
+        if check_win_board(board) != Player.EMPTY:
+            end(active_player)
+            break
+        elif check_draw(board):
+            end(active_player)
+            break
+        active_player = flop_player(active_player)
+
+
+def local():
+    print_board(board)
+    active_player = random.choice((Player.X, Player.O))
+    first_move_grid = 10
+    while first_move_grid not in range(1, 10):
+        first_move_grid = int(input("Pick a grid for your first move [1-9]: "))
+    PREVIOUS_MOVE = make_move(active_player, first_move_grid)
+    active_player = flop_player(active_player)
+    while True:
+        print_board(board)
+        PREVIOUS_MOVE = make_move(active_player, PREVIOUS_MOVE)
+        if check_win_board(board) != Player.EMPTY:
+            end(active_player)
+            break
+        elif check_draw(board):
+            end(active_player)
+            break
+        active_player = flop_player(active_player)
+
+
 # Main body of gameplay
 if __name__ == "__main__":
     print(CLEAR)
@@ -224,53 +268,18 @@ if __name__ == "__main__":
         Board([Player.EMPTY for _ in range(9)], Player.EMPTY) for _ in range(9)
     ]
 
+    player_status = ""
     while True:
         player_status = input(
             "Will you be playing with a second player locally (L) or against the computer (C)? "
         ).upper()
 
-        # Computer gameplay code
-        if player_status.lower() == "c" or player_status.lower == "computer":
-            print_board(board)
-            active_player = random.choice((Player.X, Player.O))
-            PREVIOUS_MOVE = 10
+        if player_status == "L" or player_status == "C":
+            break
+        else:
+            print(f"{fg.red}Invalid{fg.reset}")
 
-            while PREVIOUS_MOVE not in range(1, 10):
-                PREVIOUS_MOVE = int(input("Pick a grid for your first move [1-9]: "))
-
-            while True:
-                print_board(board)
-                PREVIOUS_MOVE = make_move(active_player, PREVIOUS_MOVE)
-                if check_win_board(board) != Player.EMPTY:
-                    win(active_player)
-                check_draw(board)
-
-                active_player = flop_player(active_player)
-                # active_player = flop_player(active_player)
-                PREVIOUS_MOVE = make_move_computer(active_player, PREVIOUS_MOVE)
-                if check_win_board(board) != Player.EMPTY:
-                    win(active_player)
-                check_draw(board)
-
-                active_player = flop_player(active_player)
-
-        # Local player gameplay
-        elif player_status.lower() == "l":
-            print_board(board)
-            active_player = random.choice((Player.X, Player.O))
-            first_move_grid = 10
-            while first_move_grid not in range(1, 10):
-                first_move_grid = int(input("Pick a grid for your first move [1-9]: "))
-
-            PREVIOUS_MOVE = make_move(active_player, first_move_grid)
-            active_player = flop_player(active_player)
-
-            while True:
-                print_board(board)
-                PREVIOUS_MOVE = make_move(active_player, PREVIOUS_MOVE)
-
-                if check_win_board(board) != Player.EMPTY:
-                    win(active_player)
-                check_draw(board)
-
-                active_player = flop_player(active_player)
+    if player_status == "L":
+        local()
+    else:
+        computer()
