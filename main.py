@@ -6,7 +6,7 @@ More info in README.md
 
 from typing import List
 from enum import Enum
-import sys
+import os
 import random
 
 
@@ -24,6 +24,7 @@ class fg:
 
 
 CLEAR = "\033[2J"
+
 
 # I used this enum to define the different states a space could be
 class Player(Enum):
@@ -53,11 +54,17 @@ WIN_PATTERNS = [
 
 
 # checks to see if the board it full and nobody wins
-def check_draw():
-    if all([[c != Player.EMPTY for c in s] for s in board]):
-        print_board(board)
-        print("Nobody wins!")
-        sys.exit()
+def check_draw(board: List[Board]):
+
+    draw = True
+    for subboard in board:
+        for cell in subboard.board:
+            if cell == Player.EMPTY:
+                draw = False
+
+    if draw:
+        print("Nobody Wins")
+        os._exit(0)
 
 
 # This is the final logic for when a player wins
@@ -66,7 +73,8 @@ def win(active):
     print(
         f"{fg.blue}{active.value}{fg.reset} Wins! {fg.green}Thank you for Playing{fg.reset}",
     )
-    sys.exit()
+    os._exit(0)
+
 
 
 # pass this function a board, and it will tell you if X, O, or neither wins
@@ -211,6 +219,7 @@ def flop_player(player: Player):
 
 # Main body of gameplay
 if __name__ == "__main__":
+    os._exit(0)
     print(CLEAR)
     board: List[Board] = [
         Board([Player.EMPTY for _ in range(9)], Player.EMPTY) for _ in range(9)
@@ -235,14 +244,14 @@ if __name__ == "__main__":
                 PREVIOUS_MOVE = make_move(active_player, PREVIOUS_MOVE)
                 if check_win_board(board) != Player.EMPTY:
                     win(active_player)
-                check_draw()
+                check_draw(board)
 
                 active_player = flop_player(active_player)
                 # active_player = flop_player(active_player)
                 PREVIOUS_MOVE = make_move_computer(active_player, PREVIOUS_MOVE)
                 if check_win_board(board) != Player.EMPTY:
                     win(active_player)
-                check_draw()
+                check_draw(board)
 
                 active_player = flop_player(active_player)
 
@@ -263,6 +272,6 @@ if __name__ == "__main__":
 
                 if check_win_board(board) != Player.EMPTY:
                     win(active_player)
-                check_draw()
+                check_draw(board)
 
                 active_player = flop_player(active_player)
