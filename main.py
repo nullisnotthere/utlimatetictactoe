@@ -219,7 +219,6 @@ def flop_player(player: Player):
 
 # Main body of gameplay
 if __name__ == "__main__":
-    os._exit(0)
     print(CLEAR)
     board: List[Board] = [
         Board([Player.EMPTY for _ in range(9)], Player.EMPTY) for _ in range(9)
