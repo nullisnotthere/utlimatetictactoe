@@ -38,6 +38,6 @@ We each had a couple of designated tasks, but did most of the work together in p
 
 #### Citations
 
-I borrowed the ANSI color class `fg` from [this](https://replit.com/talk/learn/ANSI-Escape-Codes-in-Python/22803) this replit article. 
+I borrowed the ANSI color class `fg` from [this](https://replit.com/talk/learn/ANSI-Escape-Codes-in-Python/22803) replit article. 
      
 
